@@ -19,7 +19,7 @@
         <!--5) Add an image to each second cell of every row-->
         <!--6) Add a anchor link for every image-->
         <!--7) Merge together 2 table cells-->
-        <table>
+        <table id="Companies">
           <tr>
             <th colspan="2">Company Name</th>
             <th>Company Logo</th>
@@ -50,6 +50,7 @@
           </tr>
           <tr>
         </table>
+        <input type="button" id="delRand" value="Delete Random">
         
         
         <!--8) Divide the page using a horizontal line-->
@@ -69,6 +70,8 @@
           <p>Course Start Date: 22/11/2022</p>
           <p>Email: mantas.petrosius@outlook.com</p>
         </footer>
+        <input type="button" id="hideImages" value="Hide">
+        <input type="button" id="showHide" value="Show/Hide">
         </body>
         <!--CSS EXERCISES -->
         <style>
@@ -247,20 +250,117 @@
        
 
         
-<!--
-        EXTRA EXERCISES
+<!--EXTRA EXERCISES -->
+        
+  <script>
+        // 41) Add an eventListener to show an alert when the cursor hovers a link, displaying its href property
 
-        41) Add an eventListener to show an alert when the cursor hovers a link, displaying its href property
-        42) Create a button that will hide every image on the page when clicked
-        43) Create a button that will hide or show the table on the page when clicked
-        44) Write a function for calculating the sum of every number inside all the table cells (if their content is numeric)
-        45) Delete the last letter from the heading each time the user clicks on it
-        46) Change the background color of a <td> if the user clicks on it
-        47) Add a delete button at the bottom of the table, when clicked it should delete a random <td>
-        48) Add automatically a pink border to a cell when the mouse hovers it
-        49) Write a function to create a table with 4 rows and 3 columns programmatically and add it to the bottom of the page
-        50) Write a function to remove the last table from the page
+        let aLinks = document.getElementsByTagName('a');
+        for(let i = 0; i<aLinks.length;i++){
+          aLinks[i].addEventListener('mouseover', function(){
+            alert(aLinks[i].getAttribute('href'))
+          })
+        }
 
+        // 42) Create a button that will hide every image on the page when clicked
+        let getBtn = document.getElementById('hideImages');
+        getBtn.addEventListener('click', function(){
+          let allImages = document.getElementsByTagName('img');
+          for(let i = 0 ; i<allImages.length; i++){
+            allImages[i].style.display = "none";
+          }
+        })
+        // 43) Create a button that will hide or show the table on the page when clicked
+      const getTable = document.getElementById('showHide');
+      getTable.addEventListener('click', toggleTable)
+      function toggleTable(){
+        let table = document.getElementById('Companies');
+        if(table.style.display === "none"){
+          table.style.display ="inline-block";
+        }else{
+          table.style.display = "none"
+        }
+      }
+        // 44) Write a function for calculating the sum of every number inside all the table cells (if their content is numeric)
+        function calcSumTC(){
+          let table = document.getElementById('Companies');
+          let sumCells = 0;
+          for (let row of table.rows) {
+            for(let cell of row.cells){
+              if(!isNaN(parseInt(cell.innerText))){
+                sumCells +=  parseInt(cell.innerText)
+                console.log(sumCells)
+              }
+    }
+}
+        }
+        calcSumTC()
+        // 45) Delete the last letter from the heading each time the user clicks on it
+        let headingDel = document.getElementsByTagName('h1')[0];
+        headingDel.addEventListener('click', deleteHeadingLast)
+        function deleteHeadingLast(){
+          headingDel.innerText = headingDel.innerText.slice(0, -1);
+          console.log(headingDel.innerText);
+        }
+        // 46) Change the background color of a <td> if the user clicks on it
+            const tdTags = document.getElementsByTagName('td'); 
+            for(let i = 0; i < tdTags.length; i++){
+              
+                tdTags[i].addEventListener('click', function(){
+                { 
+                let red = Math.floor(Math.random() * 256)
+                let green = Math.floor(Math.random() * 256)
+                let blue = Math.floor(Math.random() * 256)
+                let randomColor = `rgb(${red}, ${green}, ${blue})`
+                tdTags[i].style.backgroundColor = randomColor;
+              }
+            }
+            ) 
+        }
+        // 47) Add a delete button at the bottom of the table, when clicked it should delete a random <td>
+          
+          let delButton = document.getElementById('delRand');
+          delButton.addEventListener('click', function(){
+            let tdTagsLength = tdTags.length-1;
+            let rand = Math.round(Math.random()*tdTagsLength)
+            let tdToRemove = document.querySelectorAll('td');
+            tdToRemove[rand].remove()
+            tdTagsLength--;
+            console.log(rand)
+          })
+
+        // 48) Add automatically a pink border to a cell when the mouse hovers it
+        for(let i = 0; i<tdTags.length;i++){
+          tdTags[i].addEventListener('mouseover', function(){
+            tdTags[i].style.border = "5px solid #FF82D6";
+          })
+        }
+        // 49) Write a function to create a table with 4 rows and 3 columns programmatically and add it to the bottom of the page
+        function createTable(){
+          let table = document.createElement('table');
+          table.style.border = "1";
+          table.style.minWidth = "250px";
+          table.style.minHeight = "250px";
+          table.id = "table2";
+          for(let i = 0; i < 4; i++){ 
+            let tr = document.createElement('tr')
+            table.appendChild(tr);
+            for(let j = 0; j < 3; j++){
+             let td = document.createElement('td')
+             tr.appendChild(td)
+            }
+          }
+          document.getElementsByTagName('footer')[0].parentNode.insertBefore(table, document.getElementsByTagName('footer')[0])
+        }
+        createTable()
+        // 50) Write a function to remove the last table from the page
+        function removeTable(){
+          document.getElementById('table2').remove();
+        }
+
+  </script>
+        
+ <!--
         /* WHEN YOU ARE FINISHED
           Commit and push the code to your personal GitHub repository; then post the link of your commit on the Homework section of today's Eduflow.
         */
